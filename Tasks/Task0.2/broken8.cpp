@@ -9,10 +9,10 @@
 #include "broken_telephone.h"
 #include <stdio.h>
 
-int char* lineNodeNoise8(char *message, int messageLength)
+char* lineNodeNoise8(char *message, int messageLength)
 {
-    char X = *message[3];
-*message[3]=*message[9];
-*message[9]=x;
-    return *message;
+    char X = message[3];
+    message[3]=message[9];
+    message[9]=x;
+    return message;
 }
