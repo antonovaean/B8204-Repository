@@ -7,6 +7,7 @@ int fib(int n) {
     if (!initialized) {
         arr[0] = 1;
         arr[1] = 1;
+        initialized = true;
     }
 
     if ((n < 1) || (n > FIB_MAX_N)) return -1; // ошибка
