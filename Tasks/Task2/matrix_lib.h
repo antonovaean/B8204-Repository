@@ -16,9 +16,7 @@ class matrix{
         friend matrix operator * (matrix m1, matrix m2);
         int det();
         matrix minor(int k);
-        /*
-        matrix inv(matrix m);
-        matrix trn();
-        */
+        matrix invert();
+        matrix trans();
 };
 

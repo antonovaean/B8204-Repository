@@ -64,23 +64,37 @@ class matrix{
             }
         }
 
+        friend matrix operator * (matrix m1, float a){
+            matrix result(m1.rows, m1.cols);
+            for(int i = 0; i < result.rows; i++)
+                for(int j = 0; j < result.cols; j++)
+                    result.table[i][j] = m1.table[i][j] * a;
+            return result;
+        }
+
         int det(){
             if(this->rows != this->cols) throw -1;
             else if(this->cols != 1){
                 int result(0);
                 for(int i = 0; i < this->rows; i+=2)
-                    result += this->table[0][i] * this->minor(i).det();
+                    result += this->table[0][i] * this->minor(0, i).det();
                 for(int i = 1; i < this->rows; i+=2)
-                    result -= this->table[0][i] * this->minor(i).det();
+                    result -= this->table[0][i] * this->minor(0, i).det();
                 return result;
             }else return this->table[0][0];
         }
 
-        matrix minor(int k){
-            if((this->cols != this->rows)||(k > this->cols-1)) throw -1;
+        matrix minor(int l, int k){
+            if((l > this->rows-1)||(k > this->cols-1)) throw -1;
             else{
-                matrix result(this->cols-1);
-                for(int i = 1; i < this->rows; i++){
+                matrix result(this->rows-1, this->cols-1);
+                for(int i = 0; i < l; i++){
+                    for(int j = 0; j < k; j++)
+                        result.table[i][j] = this->table[i][j];
+                    for(int j = k + 1; j < this->cols; j++)
+                        result.table[i][j-1] = this->table[i][j];
+                }
+                for(int i = l + 1; i < this->rows; i++){
                     for(int j = 0; j < k; j++)
                         result.table[i-1][j] = this->table[i][j];
                     for(int j = k + 1; j < this->cols; j++)
@@ -89,18 +103,37 @@ class matrix{
                 return result;
             }
         }
-        /*
-        matrix inv(matrix m);
-        matrix trn();*/
+
+        matrix uni(){
+            matrix result(this->rows, this->cols);
+            for(int i = 0; i < result.rows; i++)
+                for(int j = 0; j < result.cols; j++)
+                    result.table[i][j] = this->minor(i, j).det();
+            return result;
+        }
+
+        matrix trans(){
+            matrix result(this->cols, this->rows);
+            for(int i = 0; i < result.rows; i++)
+                for(int j = 0; j < result.cols; j++)
+                    result.table[i][j] = this->table[j][i];
+            return result;
+        }
+
+        matrix invert(){
+            if(this->det() == 0) throw -1;
+            else return this->uni().trans() * (1/this->det());
+        }
 };
 
 
 int main(){
     try{
-        matrix A(5);
-        A.fill(1, 9);
+        matrix A(4);
+        A.fill(0, 1);
         A.print();
-        printf("det(A) = %d\n", A.det());
+        printf("%d\n", A.det());
+        A.invert().print();
     }
     catch(...){
         printf("Illegal matrix size for these operations!");
