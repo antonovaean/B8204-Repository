@@ -1,0 +1,31 @@
+
+#include <stdio.h>
+#include <conio.h>
+ 
+int main()
+{
+    int fibon1 = 1, fibon2 = 1;
+    int fibon = 0;
+    int n;
+    int i;
+ 
+    printf("¬ведем N: ");
+    scanf("%d", &n);
+ 
+    printf("1  1  ");
+ 
+    if (n == 1 || n == 2)
+        fibon = 1;
+    else
+        for (i = 2; i < n; i++)
+        {
+            fibon = fibon2 + fibon1;
+            fibon2 = fibon1;
+            fibon1 = fibon;
+ 
+            printf("%d  ", fibon);
+        }
+ 
+    getch();
+    return 0;
+}
