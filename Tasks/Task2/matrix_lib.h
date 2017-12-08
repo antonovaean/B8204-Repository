@@ -1,3 +1,5 @@
+#ifndef MATRIX_H
+#define MATRIX_H
 #include <stdio.h>
 #include <iostream>
 #include <ctime>
@@ -6,7 +8,7 @@
 class matrix{
     private:
         int rows, cols;
-        int** table;
+        float** table;
     public:
         matrix(int n, int m);
         matrix(int n);
@@ -14,9 +16,12 @@ class matrix{
         void print();
         friend matrix operator + (matrix m1, matrix m2);
         friend matrix operator * (matrix m1, matrix m2);
-        int det();
-        matrix minor(int k);
-        matrix invert();
+        friend matrix operator * (matrix m1, float a);
+        float det();
+        matrix minor(int l, int k);
+        matrix uni();
         matrix trans();
+        matrix invert();
 };
+#endif
 

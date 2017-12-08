@@ -6,21 +6,21 @@
 class matrix{
     private:
         int rows, cols;
-        int** table;
+        float** table;
     public:
         matrix(int n, int m){
             rows = n; cols = m;
-            table = new int*[rows];
+            table = new float*[rows];
             for (int i = 0; i < rows; i++)
-                table[i] = new int[cols];
+                table[i] = new float[cols];
             this->fill(0, 1);
         }
 
         matrix(int n){
             rows = n; cols = n;
-            table = new int*[rows];
+            table = new float*[rows];
             for (int i = 0; i < rows; i++)
-                table[i] = new int[cols];
+                table[i] = new float[cols];
             this->fill(0, 1);
         }
 
@@ -34,7 +34,7 @@ class matrix{
         void print(){
             for(int i = 0; i < this->rows; i++){
                 for(int j = 0; j < this->cols; j++)
-                    printf("%d\t", this->table[i][j]);
+                    printf("%.0f\t", this->table[i][j]);
                 printf("\n");
             }
             printf("\n");
@@ -72,7 +72,7 @@ class matrix{
             return result;
         }
 
-        int det(){
+        float det(){
             if(this->rows != this->cols) throw -1;
             else if(this->cols != 1){
                 int result(0);
@@ -108,7 +108,7 @@ class matrix{
             matrix result(this->rows, this->cols);
             for(int i = 0; i < result.rows; i++)
                 for(int j = 0; j < result.cols; j++)
-                    result.table[i][j] = this->minor(i, j).det();
+                    result.table[i][j] = this->minor(i, j).det() * pow(-1, i + j);
             return result;
         }
 
@@ -129,11 +129,11 @@ class matrix{
 
 int main(){
     try{
-        matrix A(4);
-        A.fill(0, 1);
+        matrix A(5);
+        A.fill(0, 32);
         A.print();
-        printf("%d\n", A.det());
         A.invert().print();
+        (A * A.invert()).print();
     }
     catch(...){
         printf("Illegal matrix size for these operations!");
