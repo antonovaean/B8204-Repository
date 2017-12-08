@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <ctime>
+#include <math.h>
 
 class matrix{
     private:
@@ -12,6 +13,15 @@ class matrix{
             table = new int*[rows];
             for (int i = 0; i < rows; i++)
                 table[i] = new int[cols];
+            this->fill(0, 1);
+        }
+
+        matrix(int n){
+            rows = n; cols = n;
+            table = new int*[rows];
+            for (int i = 0; i < rows; i++)
+                table[i] = new int[cols];
+            this->fill(0, 1);
         }
 
         void fill(int a, int b){
@@ -49,15 +59,24 @@ class matrix{
                 for(int i = 0; i < result.rows; i++)
                     for(int j = 0; j < result.cols; j++)
                         for(int k = 0; k < m1.cols; k++)
-                            result.table[i][j] += m1.table[i][k] + m2.table[k][j];
+                            result.table[i][j] += m1.table[i][k] * m2.table[k][j];
                 return result;
             }
         }
 
+        int det(){
+            if(this->rows != this->cols) throw -1;
+            else{
+                matrix GaussDet(this->rows);
+                GaussDet = *this;
+                for(int i = 0; i < this->cols; i++){
+
+                }
+            }
+        }
         /*
         matrix inv(matrix m);
         matrix trn();
-        int det;
         void fill();
         void print();*/
 };
@@ -67,8 +86,8 @@ int main(){
     try{
         matrix A(2, 3);
         matrix B(3, 4);
-        A.fill(0, 90);
-        B.fill(0, 90);
+        A.fill(0, 20);
+        B.fill(0, 20);
         A.print();
         B.print();
         (A * B).print();
@@ -76,5 +95,6 @@ int main(){
     catch(...){
         printf("Illegal matrix size for these operations!");
     }
+
     return 0;
 }
