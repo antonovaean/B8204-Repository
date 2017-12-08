@@ -66,31 +66,41 @@ class matrix{
 
         int det(){
             if(this->rows != this->cols) throw -1;
-            else{
-                matrix GaussDet(this->rows);
-                GaussDet = *this;
-                for(int i = 0; i < this->cols; i++){
+            else if(this->cols != 1){
+                int result(0);
+                for(int i = 0; i < this->rows; i+=2)
+                    result += this->table[0][i] * this->minor(i).det();
+                for(int i = 1; i < this->rows; i+=2)
+                    result -= this->table[0][i] * this->minor(i).det();
+                return result;
+            }else return this->table[0][0];
+        }
 
+        matrix minor(int k){
+            if((this->cols != this->rows)||(k > this->cols-1)) throw -1;
+            else{
+                matrix result(this->cols-1);
+                for(int i = 1; i < this->rows; i++){
+                    for(int j = 0; j < k; j++)
+                        result.table[i-1][j] = this->table[i][j];
+                    for(int j = k + 1; j < this->cols; j++)
+                        result.table[i-1][j-1] = this->table[i][j];
                 }
+                return result;
             }
         }
         /*
         matrix inv(matrix m);
-        matrix trn();
-        void fill();
-        void print();*/
+        matrix trn();*/
 };
 
 
 int main(){
     try{
-        matrix A(2, 3);
-        matrix B(3, 4);
-        A.fill(0, 20);
-        B.fill(0, 20);
+        matrix A(5);
+        A.fill(1, 9);
         A.print();
-        B.print();
-        (A * B).print();
+        printf("det(A) = %d\n", A.det());
     }
     catch(...){
         printf("Illegal matrix size for these operations!");
