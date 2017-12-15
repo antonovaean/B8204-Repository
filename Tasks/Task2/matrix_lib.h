@@ -2,7 +2,7 @@
 #define PROJECT_MATRIX_LIB_H
 
 #include <iostream>
-#include <string>
+
 namespace MatrixLib {
     typedef unsigned short int MSIZE_T;
     typedef float MITEM_T;
@@ -13,7 +13,7 @@ namespace MatrixLib {
         MITEM_T **v;
 
         /* Copy constructor */
-        Matrix(Matrix &a);
+        Matrix(const Matrix &a);
         /* Constructor for Matrix with dimensions MxN */
         Matrix(MSIZE_T m, MSIZE_T n);
         ~Matrix();
