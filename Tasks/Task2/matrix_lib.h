@@ -18,9 +18,9 @@ namespace MatrixLib {
         Matrix(MSIZE_T m, MSIZE_T n);
         ~Matrix();
 
-        MITEM_T* operator[](const MSIZE_T &a);
-        Matrix& getInverse();
-        MITEM_T getDeterminant();
+        MITEM_T* operator[](const MSIZE_T &a) const;
+        Matrix& getInverse() const;
+        MITEM_T getDeterminant() const;
     };
 
     template<typename T>
