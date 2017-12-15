@@ -12,7 +12,9 @@ namespace MatrixLib {
         MSIZE_T m, n;
         MITEM_T **v;
 
+        /* Copy constructor */
         Matrix(Matrix &a);
+        /* Constructor for Matrix with dimensions MxN */
         Matrix(MSIZE_T m, MSIZE_T n);
         ~Matrix();
 
