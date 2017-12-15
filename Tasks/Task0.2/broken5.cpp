@@ -1,5 +1,6 @@
-#include <broken_telephone.h>
+#include "broken_telephone.h"
 #include <stdio.h>
+#include <iostream>
 
 char* lineNodeNoise5(char *message, int messageLength) {
 	char tmp;

@@ -11,7 +11,7 @@
 
 char* lineNodeNoise8(char *message, int messageLength)
 {
-    char X = message[3];
+    char x = message[3];
     message[3]=message[9];
     message[9]=x;
     return message;

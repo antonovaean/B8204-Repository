@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/FibWithMass.dir/main.cpp.o CMakeFiles/FibWithMass.dir/Fib.cpp.o  -o FibWithMass 
