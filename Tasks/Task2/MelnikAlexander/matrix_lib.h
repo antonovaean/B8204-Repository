@@ -19,8 +19,14 @@ namespace MatrixLib {
         ~Matrix();
 
         MITEM_T* operator[](const MSIZE_T &a) const;
-        Matrix getInverse() const;
         MITEM_T getDeterminant() const;
+
+        Matrix getTranspose() const;
+        MITEM_T getMinor(const MSIZE_T &i, const MSIZE_T &j) const;
+        MITEM_T getCofactor(const MSIZE_T &i, const MSIZE_T &j) const;
+        Matrix getCofactor() const;
+        Matrix getAdjugate() const;
+        Matrix getInverse() const;
     };
 
     Matrix getMultiplicationOfMatrixAndScalar(const Matrix &a, const MITEM_T &multiplier);
@@ -45,6 +51,18 @@ namespace MatrixLib {
     class MatrixUnequalDimensionsException: public std::exception {
         virtual const char* what() const throw() {
             return "Dimensions of matrices aren't equal.";
+        }
+    };
+
+    class MatrixOutOfRangeException: public std::exception {
+        virtual const char* what() const throw() {
+            return "An attempt to read out of range.";
+        }
+    };
+
+    class MatrixNonInvertibleException: public std::exception {
+        virtual const char* what() const throw() {
+            return "Determinant of matrix equals zero.";
         }
     };
 }

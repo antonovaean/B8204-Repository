@@ -1,6 +1,8 @@
 #include "matrix_lib.h"
-#include <vector>
-#include <algorithm>
+
+#include <vector> // vector
+#include <algorithm> // next_permutation
+#include <cmath> // pow
 
 using namespace MatrixLib;
 
@@ -89,6 +91,103 @@ MITEM_T Matrix::getDeterminant() const {
     } while (std::next_permutation( indices.begin(), indices.end() ));
 
     return sum;
+}
+
+Matrix Matrix::getTranspose() const {
+
+    Matrix res(n, m);
+
+    for (MSIZE_T i = 0; i < res.m; i++) {
+        for (MSIZE_T j = 0; j < res.n; j++) {
+            res[i][j] = v[j][i];
+        }
+    }
+
+    return res;
+}
+
+MITEM_T Matrix::getMinor(const MSIZE_T &i, const MSIZE_T &j) const {
+    if ((i < 0) || (i >= m) || (j < 0) || (j >= n)) {
+        throw MatrixOutOfRangeException();
+    }
+
+    if (m != n) {
+        throw MatrixNotSquareException();
+    }
+
+    if (m == 1) {
+        return v[0][0];
+    }
+
+    Matrix res(m - 1, n - 1);
+
+    for (MSIZE_T _i = 0; _i < i; _i++) {
+
+        for (MSIZE_T _j = 0; _j < j; _j++) {
+            res[_i][_j] = v[_i][_j];
+        }
+
+        for (MSIZE_T _j = j + 1; _j < n; _j++) {
+            res[_i][_j - 1] = v[_i][_j];
+        }
+    }
+
+    for (MSIZE_T _i = i + 1; _i < m; _i++) {
+
+        for (MSIZE_T _j = 0; _j < j; _j++) {
+            res[_i - 1][_j] = v[_i][_j];
+        }
+
+        for (MSIZE_T _j = j + 1; _j < n; _j++) {
+            res[_i - 1][_j - 1] = v[_i][_j];
+        }
+    }
+
+    return res.getDeterminant();
+}
+
+MITEM_T Matrix::getCofactor(const MSIZE_T &i, const MSIZE_T &j) const {
+
+    MITEM_T multiplier = 1;
+
+    if ((i + j) % 2 != 0) {
+        multiplier = -1;
+    }
+
+    return multiplier * getMinor(i, j);
+}
+
+Matrix Matrix::getCofactor() const {
+
+    Matrix res(m, n);
+
+    for (MSIZE_T i = 0; i < res.m; i++) {
+        for (MSIZE_T j = 0; j < res.n; j++) {
+            res[i][j] = getCofactor(i, j);
+        }
+    }
+
+    return res;
+}
+
+Matrix Matrix::getAdjugate() const {
+    return this->getCofactor().getTranspose();
+}
+
+Matrix Matrix::getInverse() const {
+    if (m != n) {
+        throw MatrixNotSquareException();
+    }
+
+    MITEM_T det;
+    if ( (det = this->getDeterminant()) == 0 ) {
+        throw MatrixNonInvertibleException();
+    }
+
+    return getMultiplicationOfMatrixAndScalar(
+            this->getAdjugate(),
+            1 / det
+    );
 }
 
 Matrix MatrixLib::getMultiplicationOfMatrixAndScalar(const Matrix &a, const MITEM_T &multiplier) {
