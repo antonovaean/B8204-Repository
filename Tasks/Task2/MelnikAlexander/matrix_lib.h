@@ -23,13 +23,10 @@ namespace MatrixLib {
         MITEM_T getDeterminant() const;
     };
 
-    template<typename T>
-    Matrix operator*(const Matrix &a, const T &multiplier);
-    template<typename T>
-    Matrix operator*(const T &multiplier, const Matrix &a);
-    Matrix operator*(const Matrix &a, const Matrix &b);
-    Matrix operator+(const Matrix &a, const Matrix &b);
-    Matrix operator-(const Matrix &a, const Matrix &b);
+    Matrix getMultiplicationOfMatrixAndScalar(const Matrix &a, const MITEM_T &multiplier);
+    Matrix getMultiplicationOfMatrices(const Matrix &a, const Matrix &b);
+    Matrix getSumOfMatrices(const Matrix &a, const Matrix &b);
+    Matrix getDifferenceOfMatrices(const Matrix &a, const Matrix &b);
     std::ostream& operator<<(std::ostream &out, const Matrix &a);
 }
 

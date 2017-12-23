@@ -97,8 +97,7 @@ MITEM_T Matrix::getDeterminant() const {
     return sum;
 }
 
-template<typename T>
-Matrix MatrixLib::operator*(const Matrix &a, const T &multiplier) {
+Matrix MatrixLib::getMultiplicationOfMatrixAndScalar(const Matrix &a, const MITEM_T &multiplier) {
 
     Matrix res(a);
 
@@ -111,18 +110,13 @@ Matrix MatrixLib::operator*(const Matrix &a, const T &multiplier) {
     return res;
 }
 
-template<typename T>
-Matrix MatrixLib::operator*(const T &multiplier, const Matrix &a) {
-    return a * multiplier;
-}
-
 class MatrixMultiplicationFailedException: public std::exception {
     virtual const char* what() const throw() {
         return "Columns quantity of first matrix isn't equal to rows quantity of second matrix.";
     }
 };
 
-Matrix MatrixLib::operator*(const Matrix &a, const Matrix &b) {
+Matrix MatrixLib::getMultiplicationOfMatrices(const Matrix &a, const Matrix &b) {
 
     if (a.n != b.m) {
         throw MatrixMultiplicationFailedException();
@@ -147,7 +141,7 @@ class MatrixUnequalDimensionsException: public std::exception {
     }
 };
 
-Matrix MatrixLib::operator+(const Matrix &a, const Matrix &b) {
+Matrix MatrixLib::getSumOfMatrices(const Matrix &a, const Matrix &b) {
 
     if ((a.m != b.m) || (a.n != b.n)) {
         throw MatrixUnequalDimensionsException();
@@ -164,7 +158,7 @@ Matrix MatrixLib::operator+(const Matrix &a, const Matrix &b) {
     return res;
 }
 
-Matrix MatrixLib::operator-(const Matrix &a, const Matrix &b) {
+Matrix MatrixLib::getDifferenceOfMatrices(const Matrix &a, const Matrix &b) {
 
     if ((a.m != b.m) || (a.n != b.n)) {
         throw MatrixUnequalDimensionsException();
@@ -181,12 +175,16 @@ Matrix MatrixLib::operator-(const Matrix &a, const Matrix &b) {
     return res;
 }
 
-std::ostream& MatrixLib::operator<<(std::ostream &out, const Matrix &a) {
+void printMatrix(std::ostream &out, const Matrix &a) {
     for (MSIZE_T i = 0; i < a.m; i++) {
         for (MSIZE_T j = 0; j < a.n; j++) {
             out << a.v[i][j] << ' ';
         }
         out << std::endl;
     }
+}
+
+std::ostream& MatrixLib::operator<<(std::ostream &out, const Matrix &a) {
+    printMatrix(out, a);
     return out;
 }
