@@ -28,6 +28,25 @@ namespace MatrixLib {
     Matrix getSumOfMatrices(const Matrix &a, const Matrix &b);
     Matrix getDifferenceOfMatrices(const Matrix &a, const Matrix &b);
     std::ostream& operator<<(std::ostream &out, const Matrix &a);
+
+
+    class MatrixNotSquareException: public std::exception {
+        virtual const char* what() const throw() {
+            return "Matrix isn't square.";
+        }
+    };
+
+    class MatrixMultiplicationFailedException: public std::exception {
+        virtual const char* what() const throw() {
+            return "Columns quantity of first matrix isn't equal to rows quantity of second matrix.";
+        }
+    };
+
+    class MatrixUnequalDimensionsException: public std::exception {
+        virtual const char* what() const throw() {
+            return "Dimensions of matrices aren't equal.";
+        }
+    };
 }
 
 #endif //PROJECT_MATRIX_LIB_H

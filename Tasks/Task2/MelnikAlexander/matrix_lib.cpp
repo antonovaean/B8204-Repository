@@ -62,12 +62,6 @@ size_t getInversions(std::vector<MSIZE_T> v) {
     return res;
 }
 
-class MatrixNotSquareException: public std::exception {
-    virtual const char* what() const throw() {
-        return "Matrix isn't square.";
-    }
-};
-
 MITEM_T Matrix::getDeterminant() const {
     if (m != n) {
         throw MatrixNotSquareException();
@@ -110,12 +104,6 @@ Matrix MatrixLib::getMultiplicationOfMatrixAndScalar(const Matrix &a, const MITE
     return res;
 }
 
-class MatrixMultiplicationFailedException: public std::exception {
-    virtual const char* what() const throw() {
-        return "Columns quantity of first matrix isn't equal to rows quantity of second matrix.";
-    }
-};
-
 Matrix MatrixLib::getMultiplicationOfMatrices(const Matrix &a, const Matrix &b) {
 
     if (a.n != b.m) {
@@ -134,12 +122,6 @@ Matrix MatrixLib::getMultiplicationOfMatrices(const Matrix &a, const Matrix &b) 
 
     return res;
 }
-
-class MatrixUnequalDimensionsException: public std::exception {
-    virtual const char* what() const throw() {
-        return "Dimensions of matrices aren't equal.";
-    }
-};
 
 Matrix MatrixLib::getSumOfMatrices(const Matrix &a, const Matrix &b) {
 
