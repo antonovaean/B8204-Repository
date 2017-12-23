@@ -36,26 +36,47 @@ int main() {
 
     cout << "m1 + m2:" << endl;
     try {
-        cout << MatrixLib::getSumOfMatrices(m1, m2) << endl;
+        cout << MatrixLib::getSumOfMatrices(m1, m2);
     } catch (exception &e) {
         cout << e.what() << endl;
     }
+    cout << endl;
 
 
     cout << "m1 - m2:" << endl;
     try {
-        cout << MatrixLib::getDifferenceOfMatrices(m1, m2) << endl;
+        cout << MatrixLib::getDifferenceOfMatrices(m1, m2);
     } catch (exception &e) {
         cout << e.what() << endl;
     }
+    cout << endl;
 
 
     cout << "m1 * m2" << endl;
     try {
-        cout << getMultiplicationOfMatrices(m1, m2) << endl;
+        cout << getMultiplicationOfMatrices(m1, m2);
     } catch (exception &e) {
         cout << e.what() << endl;
     }
+    cout << endl;
+
+
+    cout << "inverse of m1:" << endl;
+    try {
+        cout << m1.getInverse();
+    } catch (exception &e) {
+        cout << e.what() << endl;
+    }
+    cout << endl;
+
+
+    cout << "m1 * m1.getInverse():" << endl;
+    try {
+        cout << MatrixLib::getMultiplicationOfMatrices( m1, m1.getInverse() );
+    } catch (exception &e) {
+        cout << e.what() << endl;
+    }
+    cout << endl;
 
     return 0;
 }
