@@ -1,11 +1,8 @@
 #include <iostream>
+#include <ctime>
 #include "matrix_lib.h"
 
 using namespace std;
-using MatrixLib::operator*;
-using MatrixLib::operator+;
-using MatrixLib::operator-;
-
 
 float getRandomNumber(float a, float b);
 void initMatrixWithRandomValues(MatrixLib::Matrix &m, MatrixLib::MITEM_T from, MatrixLib::MITEM_T to);
@@ -14,19 +11,51 @@ int main() {
 
     srand( time(NULL) );
 
-    MatrixLib::Matrix m(2, 3);
+    MatrixLib::Matrix m1(3, 3);
+    MatrixLib::Matrix m2(3, 3);
 
-    initMatrixWithRandomValues(m, 0.001, 9.999);
+    initMatrixWithRandomValues(m1, 0.001, 9.999);
+    initMatrixWithRandomValues(m2, 0.001, 9.999);
 
-    cout << m << endl;
+    cout << "m1:" << endl << m1 << endl;
+    cout << "m2:" << endl << m2 << endl;
 
+
+    cout << "determinant of m1: ";
     try {
-        cout << m.getDeterminant() << endl;
+        cout << m1.getDeterminant() << endl;
+    } catch (exception &e) {
+        cout << e.what() << endl;
+    }
+    cout << endl;
+
+
+    MatrixLib::MITEM_T lambda = 10;
+    cout << MatrixLib::getMultiplicationOfMatrixAndScalar(m1, lambda) << endl;
+
+
+    cout << "m1 + m2:" << endl;
+    try {
+        cout << MatrixLib::getSumOfMatrices(m1, m2) << endl;
     } catch (exception &e) {
         cout << e.what() << endl;
     }
 
-    cout << 0.0001 * m << endl;
+
+    cout << "m1 - m2:" << endl;
+    try {
+        cout << MatrixLib::getDifferenceOfMatrices(m1, m2) << endl;
+    } catch (exception &e) {
+        cout << e.what() << endl;
+    }
+
+
+    cout << "m1 * m2" << endl;
+    try {
+        cout << getMultiplicationOfMatrices(m1, m2) << endl;
+    } catch (exception &e) {
+        cout << e.what() << endl;
+    }
 
     return 0;
 }
