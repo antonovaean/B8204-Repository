@@ -33,9 +33,6 @@ string decode(string s){
         j = 0;
     }
 
-    for(int i = 0; i < binStr.length() % 8; i++)
-        binStr += '0';
-
     for(int i = 0; i < binStr.length(); i+=8)
         result += (char)(bitset<8>(binStr.substr(i, 8)).to_ulong());
 
