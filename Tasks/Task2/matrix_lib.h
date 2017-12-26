@@ -19,18 +19,19 @@ namespace MatrixLib {
         ~Matrix();
 
         MITEM_T* operator[](const MSIZE_T &a) const;
-        Matrix& getInverse() const;
+        Matrix getInverse() const;
         MITEM_T getDeterminant() const;
     };
 
     template<typename T>
-    Matrix& operator*(const Matrix &a, const T &multiplier);
+    Matrix operator*(const Matrix &a, const T &multiplier);
     template<typename T>
-    Matrix& operator*(const T &multiplier, const Matrix &a);
-    Matrix& operator*(const Matrix &a, const Matrix &b);
-    Matrix& operator+(const Matrix &a, const Matrix &b);
-    Matrix& operator-(const Matrix &a, const Matrix &b);
-    std::ostream& operator<<(std::ostream& out, const Matrix &a);
+    Matrix operator*(const T &multiplier, const Matrix &a);
+    Matrix operator*(const Matrix &a, const Matrix &b);
+    Matrix operator+(const Matrix &a, const Matrix &b);
+    Matrix operator-(const Matrix &a, const Matrix &b);
+    std::ostream& operator<<(std::ostream &out, const Matrix &a);
 }
 
+#include "matrix_lib.t.hpp"
 #endif //PROJECT_MATRIX_LIB_H
