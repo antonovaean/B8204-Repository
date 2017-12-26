@@ -3,7 +3,6 @@
 
 #include <vector> // vector
 #include <algorithm> // next_permutation
-#include <cmath> // pow
 
 using namespace MatrixLib;
 
