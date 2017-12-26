@@ -30,7 +30,8 @@ int main() {
     cout << endl;
 
 
-    MatrixLib::MITEM_T lambda = 10;
+    int lambda = 10;
+    cout << "m1 * lambda: " << endl;
     cout << m1 * lambda << endl;
 
 
