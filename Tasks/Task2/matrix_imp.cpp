@@ -2,7 +2,7 @@
 #include <iostream>
 #include <ctime>
 #include <math.h>
-#include "matrix_lib.h"
+#include "matrix_libr.h"
 
 matrix::matrix(int n, int m){
     rows = n; cols = m;
