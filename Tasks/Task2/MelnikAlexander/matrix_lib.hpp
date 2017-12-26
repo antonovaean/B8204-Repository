@@ -5,12 +5,12 @@
 
 namespace MatrixLib {
     typedef unsigned short int MSIZE_T;
-    typedef float MITEM_T;
 
     /** @link https://en.wikipedia.org/wiki/Matrix_(mathematics) */
+    template <class Type>
     struct Matrix {
         MSIZE_T m, n;
-        MITEM_T **v;
+        Type **v;
 
         /* Copy constructor */
         Matrix(const Matrix &a);
@@ -18,25 +18,34 @@ namespace MatrixLib {
         Matrix(MSIZE_T m, MSIZE_T n);
         ~Matrix();
 
-        MITEM_T* operator[](const MSIZE_T &a) const;
-        MITEM_T getDeterminant() const;
+        Type* operator[](const MSIZE_T &a) const;
+        Type getDeterminant() const;
 
         Matrix getTranspose() const;
-        MITEM_T getMinor(const MSIZE_T &i, const MSIZE_T &j) const;
-        MITEM_T getCofactor(const MSIZE_T &i, const MSIZE_T &j) const;
+        Type getMinor(const MSIZE_T &i, const MSIZE_T &j) const;
+        Type getCofactor(const MSIZE_T &i, const MSIZE_T &j) const;
         Matrix getCofactor() const;
         Matrix getAdjugate() const;
         Matrix getInverse() const;
     };
 
-    template<typename T>
-    Matrix operator*(const Matrix &a, const T &multiplier);
-    template<typename T>
-    Matrix operator*(const T &multiplier, const Matrix &a);
-    Matrix operator*(const Matrix &a, const Matrix &b);
-    Matrix operator+(const Matrix &a, const Matrix &b);
-    Matrix operator-(const Matrix &a, const Matrix &b);
-    std::ostream& operator<<(std::ostream &out, const Matrix &a);
+    template <typename T, class Type>
+    Matrix<Type> operator*(const Matrix<Type> &a, const T &multiplier);
+
+    template <typename T, class Type>
+    Matrix<Type> operator*(const T &multiplier, const Matrix<Type> &a);
+
+    template <class Type>
+    Matrix<Type> operator*(const Matrix<Type> &a, const Matrix<Type> &b);
+
+    template <class Type>
+    Matrix<Type> operator+(const Matrix<Type> &a, const Matrix<Type> &b);
+
+    template <class Type>
+    Matrix<Type> operator-(const Matrix<Type> &a, const Matrix<Type> &b);
+
+    template <class Type>
+    std::ostream& operator<<(std::ostream &out, const Matrix<Type> &a);
 
 
     class MatrixNotSquareException: public std::exception {

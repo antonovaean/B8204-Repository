@@ -1,21 +1,23 @@
 #include <iostream>
-#include <ctime>
 #include "matrix_lib.hpp"
 
 using namespace std;
 
-float getRandomNumber(float a, float b);
-void initMatrixWithRandomValues(MatrixLib::Matrix &m, MatrixLib::MITEM_T from, MatrixLib::MITEM_T to);
+int getRandomNumber(int, int);
+double getRandomNumber(double a, double b);
+
+template <typename T, class Type>
+void initMatrixWithRandomValues(MatrixLib::Matrix<Type> &m, T from, T to);
 
 int main() {
 
     srand( time(NULL) );
 
-    MatrixLib::Matrix m1(3, 3);
-    MatrixLib::Matrix m2(3, 3);
+    MatrixLib::Matrix<int> m1(3, 3);
+    MatrixLib::Matrix<int> m2(3, 3);
 
-    initMatrixWithRandomValues(m1, 0.001, 9.999);
-    initMatrixWithRandomValues(m2, 0.001, 9.999);
+    initMatrixWithRandomValues(m1, -10, 10);
+    initMatrixWithRandomValues(m2, -10, 10);
 
     cout << "m1:" << endl << m1 << endl;
     cout << "m2:" << endl << m2 << endl;
@@ -82,13 +84,20 @@ int main() {
     return 0;
 }
 
-float getRandomNumber(float a, float b) {
+int getRandomNumber(int a, int b) {
     // return random number from a to b inclusive
 
-    return a + static_cast<float>(rand()) / (static_cast<float>( RAND_MAX / (b - a) ));
+    return rand() % (b - a + 1) + a;
 }
 
-void initMatrixWithRandomValues(MatrixLib::Matrix &m, MatrixLib::MITEM_T from, MatrixLib::MITEM_T to) {
+double getRandomNumber(double a, double b) {
+    // return random number from a to b inclusive
+
+    return a + static_cast<double>(rand()) / (RAND_MAX / (b - a));
+}
+
+template <typename T, class Type>
+void initMatrixWithRandomValues(MatrixLib::Matrix<Type> &m, T from, T to) {
     for (MatrixLib::MSIZE_T i = 0; i < m.m; i++) {
         for (MatrixLib::MSIZE_T j = 0; j < m.n; j++) {
             m[i][j] = getRandomNumber(from, to);
