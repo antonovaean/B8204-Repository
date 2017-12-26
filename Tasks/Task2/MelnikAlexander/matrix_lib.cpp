@@ -1,4 +1,4 @@
-#include "matrix_lib.h"
+#include "matrix_lib.hpp"
 
 #include <vector> // vector
 #include <algorithm> // next_permutation
@@ -184,26 +184,10 @@ Matrix Matrix::getInverse() const {
         throw MatrixNonInvertibleException();
     }
 
-    return getMultiplicationOfMatrixAndScalar(
-            this->getAdjugate(),
-            1 / det
-    );
+    return this->getAdjugate() * (1 / det);
 }
 
-Matrix MatrixLib::getMultiplicationOfMatrixAndScalar(const Matrix &a, const MITEM_T &multiplier) {
-
-    Matrix res(a);
-
-    for (MSIZE_T i = 0; i < res.m; i++) {
-        for (MSIZE_T j = 0; j < res.n; j++) {
-            res[i][j] *= multiplier;
-        }
-    }
-
-    return res;
-}
-
-Matrix MatrixLib::getMultiplicationOfMatrices(const Matrix &a, const Matrix &b) {
+Matrix MatrixLib::operator*(const Matrix &a, const Matrix &b) {
 
     if (a.n != b.m) {
         throw MatrixMultiplicationFailedException();
@@ -222,7 +206,7 @@ Matrix MatrixLib::getMultiplicationOfMatrices(const Matrix &a, const Matrix &b) 
     return res;
 }
 
-Matrix MatrixLib::getSumOfMatrices(const Matrix &a, const Matrix &b) {
+Matrix MatrixLib::operator+(const Matrix &a, const Matrix &b) {
 
     if ((a.m != b.m) || (a.n != b.n)) {
         throw MatrixUnequalDimensionsException();
@@ -239,7 +223,7 @@ Matrix MatrixLib::getSumOfMatrices(const Matrix &a, const Matrix &b) {
     return res;
 }
 
-Matrix MatrixLib::getDifferenceOfMatrices(const Matrix &a, const Matrix &b) {
+Matrix MatrixLib::operator-(const Matrix &a, const Matrix &b) {
 
     if ((a.m != b.m) || (a.n != b.n)) {
         throw MatrixUnequalDimensionsException();

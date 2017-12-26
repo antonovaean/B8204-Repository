@@ -1,6 +1,6 @@
 #include <iostream>
 #include <ctime>
-#include "matrix_lib.h"
+#include "matrix_lib.hpp"
 
 using namespace std;
 
@@ -31,12 +31,12 @@ int main() {
 
 
     MatrixLib::MITEM_T lambda = 10;
-    cout << MatrixLib::getMultiplicationOfMatrixAndScalar(m1, lambda) << endl;
+    cout << m1 * lambda << endl;
 
 
     cout << "m1 + m2:" << endl;
     try {
-        cout << MatrixLib::getSumOfMatrices(m1, m2);
+        cout << m1 + m2;
     } catch (exception &e) {
         cout << e.what() << endl;
     }
@@ -45,7 +45,7 @@ int main() {
 
     cout << "m1 - m2:" << endl;
     try {
-        cout << MatrixLib::getDifferenceOfMatrices(m1, m2);
+        cout << m1 - m2;
     } catch (exception &e) {
         cout << e.what() << endl;
     }
@@ -54,7 +54,7 @@ int main() {
 
     cout << "m1 * m2" << endl;
     try {
-        cout << getMultiplicationOfMatrices(m1, m2);
+        cout << m1 * m2;
     } catch (exception &e) {
         cout << e.what() << endl;
     }
@@ -72,7 +72,7 @@ int main() {
 
     cout << "m1 * m1.getInverse():" << endl;
     try {
-        cout << MatrixLib::getMultiplicationOfMatrices( m1, m1.getInverse() );
+        cout << m1 * m1.getInverse();
     } catch (exception &e) {
         cout << e.what() << endl;
     }
