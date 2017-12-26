@@ -30,7 +30,7 @@ void matrix::fill(int a, int b){
 void matrix::print(){
     for(int i = 0; i < this->rows; i++){
         for(int j = 0; j < this->cols; j++)
-            printf("%.0f\t", this->table[i][j]);
+            printf("%.03f\t", this->table[i][j]);
         printf("\n");
     }
     printf("\n");

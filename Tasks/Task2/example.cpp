@@ -3,6 +3,7 @@
 #include <ctime>
 #include <math.h>
 #include "matrix_lib.h"
+#include "matrix_imp.cpp"
 
 int main(){
     try{
@@ -12,9 +13,6 @@ int main(){
         A.print();
         A.invert().print();
         (A * A.invert()).print();
-        B.print();
-        B.invert().print();
-        (B * B.invert()).print();
     }
     catch(...){
         printf("Illegal matrix size for these operations!");
