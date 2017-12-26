@@ -1,7 +1,7 @@
 #ifndef PROJECT_MATRIX_LIB_T_H
 #define PROJECT_MATRIX_LIB_T_H
 
-template<typename T>
+template <typename T>
 MatrixLib::Matrix MatrixLib::operator*(const MatrixLib::Matrix &a, const T &multiplier) {
 
     Matrix res(a);
@@ -15,7 +15,7 @@ MatrixLib::Matrix MatrixLib::operator*(const MatrixLib::Matrix &a, const T &mult
     return res;
 }
 
-template<typename T>
+template <typename T>
 MatrixLib::Matrix MatrixLib::operator*(const T &multiplier, const MatrixLib::Matrix &a) {
     return a * multiplier;
 }

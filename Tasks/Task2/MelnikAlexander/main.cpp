@@ -1,5 +1,4 @@
 #include <iostream>
-#include <ctime>
 #include "matrix_lib.hpp"
 
 using namespace std;
@@ -85,7 +84,7 @@ int main() {
 float getRandomNumber(float a, float b) {
     // return random number from a to b inclusive
 
-    return a + static_cast<float>(rand()) / (static_cast<float>( RAND_MAX / (b - a) ));
+    return a + static_cast<float>(rand()) / (RAND_MAX / (b - a));
 }
 
 void initMatrixWithRandomValues(MatrixLib::Matrix &m, MatrixLib::MITEM_T from, MatrixLib::MITEM_T to) {

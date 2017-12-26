@@ -29,9 +29,9 @@ namespace MatrixLib {
         Matrix getInverse() const;
     };
 
-    template<typename T>
+    template <typename T>
     Matrix operator*(const Matrix &a, const T &multiplier);
-    template<typename T>
+    template <typename T>
     Matrix operator*(const T &multiplier, const Matrix &a);
     Matrix operator*(const Matrix &a, const Matrix &b);
     Matrix operator+(const Matrix &a, const Matrix &b);
