@@ -6,8 +6,8 @@ MatrixLib::Matrix MatrixLib::operator*(const MatrixLib::Matrix &a, const T &mult
 
     Matrix res(a);
 
-    for (MSIZE_T i = 0; i < res.m; i++) {
-        for (MSIZE_T j = 0; j < res.n; j++) {
+    for (MSIZE_T i = 0; i < res.m; ++i) {
+        for (MSIZE_T j = 0; j < res.n; ++j) {
             res[i][j] *= multiplier;
         }
     }

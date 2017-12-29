@@ -30,7 +30,7 @@ int main() {
 
 
     int lambda = 10;
-    cout << "m1 * lambda: " << endl;
+    cout << "m1 * " << lambda << ": " << endl;
     cout << m1 * lambda << endl;
 
 
@@ -88,8 +88,8 @@ float getRandomNumber(float a, float b) {
 }
 
 void initMatrixWithRandomValues(MatrixLib::Matrix &m, MatrixLib::MITEM_T from, MatrixLib::MITEM_T to) {
-    for (MatrixLib::MSIZE_T i = 0; i < m.m; i++) {
-        for (MatrixLib::MSIZE_T j = 0; j < m.n; j++) {
+    for (MatrixLib::MSIZE_T i = 0; i < m.m; ++i) {
+        for (MatrixLib::MSIZE_T j = 0; j < m.n; ++j) {
             m[i][j] = getRandomNumber(from, to);
         }
     }

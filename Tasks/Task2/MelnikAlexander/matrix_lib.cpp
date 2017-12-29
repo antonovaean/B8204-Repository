@@ -1,28 +1,20 @@
 #include "matrix_lib.hpp"
 
+#include <cstring> // memcpy
 #include <vector> // vector
 #include <algorithm> // next_permutation
 
 using namespace MatrixLib;
 
-MITEM_T** allocateMemoryForMatrix(MSIZE_T m, MSIZE_T n) {
-    MITEM_T **v = new MITEM_T*[m];
-    for (MSIZE_T i = 0; i < m; i++) {
-        v[i] = new MITEM_T[n];
-    }
-    return v;
-}
-
 Matrix::Matrix(const Matrix &a)  {
     this->m = a.m;
     this->n = a.n;
 
-    v = allocateMemoryForMatrix(m, n);
+    v = (MITEM_T**)malloc(m * sizeof(MITEM_T*));
 
-    for (MSIZE_T i = 0; i < m; i++) {
-        for (MSIZE_T j = 0; j < n; j++) {
-            v[i][j] = a[i][j];
-        }
+    for (MSIZE_T i = 0; i < m; ++i) {
+        v[i] = (MITEM_T*)malloc(n * sizeof(MITEM_T));
+        memcpy(v[i], a[i], n * sizeof(MITEM_T));
     }
 }
 
@@ -30,20 +22,18 @@ Matrix::Matrix(MSIZE_T m, MSIZE_T n) {
     this->m = m;
     this->n = n;
 
-    v = allocateMemoryForMatrix(m, n);
+    v = (MITEM_T**)malloc(m * sizeof(MITEM_T*));
 
-    for (MSIZE_T i = 0; i < m; i++) {
-        for (MSIZE_T j = 0; j < n; j++) {
-            v[i][j] = 0;
-        }
+    for (MSIZE_T i = 0; i < m; ++i) {
+        v[i] = (MITEM_T*)calloc(n, sizeof(MITEM_T));
     }
 }
 
 Matrix::~Matrix() {
-    for (MSIZE_T i = 0; i < m; i++) {
-        delete [] v[i];
+    for (MSIZE_T i = 0; i < m; ++i) {
+        free(v[i]);
     }
-    delete [] v;
+    free(v);
 }
 
 MITEM_T* Matrix::operator[](const MSIZE_T &a) const {
@@ -53,10 +43,11 @@ MITEM_T* Matrix::operator[](const MSIZE_T &a) const {
 size_t getInversions(std::vector<MSIZE_T> v) {
     size_t res = 0;
 
-    for (size_t i = 0; i < v.size(); i++) {
-        for (size_t j = i+1; j < v.size(); j++) {
-            if (v[i] > v[j])
-                res++;
+    for (size_t i = 0; i < v.size(); ++i) {
+        for (size_t j = i + 1; j < v.size(); ++j) {
+            if (v[i] > v[j]) {
+                ++res;
+            }
         }
     }
 
@@ -71,13 +62,13 @@ MITEM_T Matrix::getDeterminant() const {
     MITEM_T sum = 0;
 
     std::vector<MSIZE_T> indices;
-    for (MSIZE_T i = 0; i < n; i++) {
+    for (MSIZE_T i = 0; i < n; ++i) {
         indices.push_back(i);
     }
 
     do {
         MITEM_T summand = 1;
-        for (MSIZE_T i = 0; i < indices.size(); i++) {
+        for (MSIZE_T i = 0; i < indices.size(); ++i) {
             summand *= v[i][ indices[i] ];
         }
 
@@ -96,8 +87,8 @@ Matrix Matrix::getTranspose() const {
 
     Matrix res(n, m);
 
-    for (MSIZE_T i = 0; i < res.m; i++) {
-        for (MSIZE_T j = 0; j < res.n; j++) {
+    for (MSIZE_T i = 0; i < res.m; ++i) {
+        for (MSIZE_T j = 0; j < res.n; ++j) {
             res[i][j] = v[j][i];
         }
     }
@@ -105,8 +96,8 @@ Matrix Matrix::getTranspose() const {
     return res;
 }
 
-MITEM_T Matrix::getMinor(const MSIZE_T &i, const MSIZE_T &j) const {
-    if ((i < 0) || (i >= m) || (j < 0) || (j >= n)) {
+MITEM_T Matrix::getMinor(const MSIZE_T &_i, const MSIZE_T &_j) const {
+    if ((_i < 0) || (_i >= m) || (_j < 0) || (_j >= n)) {
         throw MatrixOutOfRangeException();
     }
 
@@ -120,25 +111,21 @@ MITEM_T Matrix::getMinor(const MSIZE_T &i, const MSIZE_T &j) const {
 
     Matrix res(m - 1, n - 1);
 
-    for (MSIZE_T _i = 0; _i < i; _i++) {
+    for (MSIZE_T i = 0; i < m; ++i) {
+        for (MSIZE_T j = 0; j < n; ++j) {
 
-        for (MSIZE_T _j = 0; _j < j; _j++) {
-            res[_i][_j] = v[_i][_j];
-        }
+            if ((i == _i) || (j == _j)) {
+                continue;
+            }
 
-        for (MSIZE_T _j = j + 1; _j < n; _j++) {
-            res[_i][_j - 1] = v[_i][_j];
-        }
-    }
-
-    for (MSIZE_T _i = i + 1; _i < m; _i++) {
-
-        for (MSIZE_T _j = 0; _j < j; _j++) {
-            res[_i - 1][_j] = v[_i][_j];
-        }
-
-        for (MSIZE_T _j = j + 1; _j < n; _j++) {
-            res[_i - 1][_j - 1] = v[_i][_j];
+            if ((i > _i) && (j > _j))
+                res[i - 1][j - 1] = v[i][j];
+            else if (i > _i)
+                res[i - 1][j] = v[i][j];
+            else if (j > _j)
+                res[i][j - 1] = v[i][j];
+            else
+                res[i][j] = v[i][j];
         }
     }
 
@@ -147,11 +134,7 @@ MITEM_T Matrix::getMinor(const MSIZE_T &i, const MSIZE_T &j) const {
 
 MITEM_T Matrix::getCofactor(const MSIZE_T &i, const MSIZE_T &j) const {
 
-    MITEM_T multiplier = 1;
-
-    if ((i + j) % 2 != 0) {
-        multiplier = -1;
-    }
+    MITEM_T multiplier = ((i + j) % 2) ? -1 : 1;
 
     return multiplier * getMinor(i, j);
 }
@@ -160,8 +143,8 @@ Matrix Matrix::getCofactor() const {
 
     Matrix res(m, n);
 
-    for (MSIZE_T i = 0; i < res.m; i++) {
-        for (MSIZE_T j = 0; j < res.n; j++) {
+    for (MSIZE_T i = 0; i < res.m; ++i) {
+        for (MSIZE_T j = 0; j < res.n; ++j) {
             res[i][j] = getCofactor(i, j);
         }
     }
@@ -170,7 +153,7 @@ Matrix Matrix::getCofactor() const {
 }
 
 Matrix Matrix::getAdjugate() const {
-    return this->getCofactor().getTranspose();
+    return getCofactor().getTranspose();
 }
 
 Matrix Matrix::getInverse() const {
@@ -179,11 +162,11 @@ Matrix Matrix::getInverse() const {
     }
 
     MITEM_T det;
-    if ( (det = this->getDeterminant()) == 0 ) {
+    if ( (det = getDeterminant()) == 0 ) {
         throw MatrixNonInvertibleException();
     }
 
-    return this->getAdjugate() * (1 / det);
+    return getAdjugate() * (1 / det);
 }
 
 Matrix MatrixLib::operator*(const Matrix &a, const Matrix &b) {
@@ -194,9 +177,9 @@ Matrix MatrixLib::operator*(const Matrix &a, const Matrix &b) {
 
     Matrix res(a.m, a.n);
 
-    for (MSIZE_T i = 0; i < a.m; i++) {
-        for (MSIZE_T j = 0; j < b.n; j++) {
-            for (MSIZE_T k = 0; k < a.n; k++) {
+    for (MSIZE_T i = 0; i < a.m; ++i) {
+        for (MSIZE_T j = 0; j < b.n; ++j) {
+            for (MSIZE_T k = 0; k < a.n; ++k) {
                 res[i][j] += a[i][k] * b[k][j];
             }
         }
@@ -213,8 +196,8 @@ Matrix MatrixLib::operator+(const Matrix &a, const Matrix &b) {
 
     Matrix res(a);
 
-    for (MSIZE_T i = 0; i < a.m; i++) {
-        for (MSIZE_T j = 0; j < a.n; j++) {
+    for (MSIZE_T i = 0; i < a.m; ++i) {
+        for (MSIZE_T j = 0; j < a.n; ++j) {
             res[i][j] += b[i][j];
         }
     }
@@ -230,8 +213,8 @@ Matrix MatrixLib::operator-(const Matrix &a, const Matrix &b) {
 
     Matrix res(a);
 
-    for (MSIZE_T i = 0; i < a.m; i++) {
-        for (MSIZE_T j = 0; j < a.n; j++) {
+    for (MSIZE_T i = 0; i < a.m; ++i) {
+        for (MSIZE_T j = 0; j < a.n; ++j) {
             res[i][j] -= b[i][j];
         }
     }
@@ -239,16 +222,12 @@ Matrix MatrixLib::operator-(const Matrix &a, const Matrix &b) {
     return res;
 }
 
-void printMatrix(std::ostream &out, const Matrix &a) {
-    for (MSIZE_T i = 0; i < a.m; i++) {
-        for (MSIZE_T j = 0; j < a.n; j++) {
+std::ostream& MatrixLib::operator<<(std::ostream &out, const Matrix &a) {
+    for (MSIZE_T i = 0; i < a.m; ++i) {
+        for (MSIZE_T j = 0; j < a.n; ++j) {
             out << a.v[i][j] << ' ';
         }
         out << std::endl;
     }
-}
-
-std::ostream& MatrixLib::operator<<(std::ostream &out, const Matrix &a) {
-    printMatrix(out, a);
     return out;
 }

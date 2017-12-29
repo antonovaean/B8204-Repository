@@ -22,7 +22,7 @@ namespace MatrixLib {
         MITEM_T getDeterminant() const;
 
         Matrix getTranspose() const;
-        MITEM_T getMinor(const MSIZE_T &i, const MSIZE_T &j) const;
+        MITEM_T getMinor(const MSIZE_T &_i, const MSIZE_T &_j) const;
         MITEM_T getCofactor(const MSIZE_T &i, const MSIZE_T &j) const;
         Matrix getCofactor() const;
         Matrix getAdjugate() const;
